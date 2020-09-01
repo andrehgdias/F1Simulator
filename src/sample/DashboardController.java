@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -23,14 +24,16 @@ public class DashboardController implements Initializable {
 
     Desktop desktop = Desktop.getDesktop();
 
-    private int numOfRaces = 7;
+    private int numOfRaces = 5;
 
-    public javafx.scene.control.Button buttonSaveChampionship;
     public TextField fieldChampionshipName;
     public Label labelNumOfRaces;
     public TextField fieldPenaltyTime;
     public FlowPane paneTeams;
     public FlowPane paneCities;
+    public Button buttonSaveChampionship;
+    public Button buttonAddGrandprix;
+
 
     private Championship championship = new Championship("Campeonato Mundial", 8.0f);
 
@@ -57,39 +60,46 @@ public class DashboardController implements Initializable {
         this.fillValues();
         this.fieldPenaltyTime.textProperty().addListener((obs, oldText, newText) -> {
             System.out.println("Text changed from "+oldText+" to "+newText);
-            this.enableButton(true);
+            this.enableButton(this.buttonSaveChampionship, true);
         });
         this.fieldChampionshipName.textProperty().addListener((obs, oldText, newText) -> {
             System.out.println("Text changed from "+oldText+" to "+newText);
-            this.enableButton(true);
+            this.enableButton(this.buttonSaveChampionship, true);
         });
-        this.enableButton(false);
+        this.enableButton(this.buttonSaveChampionship, false);
 
 
-        this.paneCities.setMinWidth(this.numOfRaces * 130);
-        this.paneTeams.setMinWidth(this.numOfRaces * 130);
-        this.generateGrandPrix();
-        this.drawGrandPrixsCards();
+        this.paneCities.setMinWidth(this.numOfRaces * 150);
+        this.paneTeams.setMinWidth(this.numOfRaces * 150);
+        this.generateGrandPrix(this.numOfRaces);
+        this.drawGrandPrixsCards(false);
     }
 
-    private void generateGrandPrix() {
-        Random gerador = new Random();
-        ArrayList<GrandPrix> grandPrixs = new ArrayList<GrandPrix>();
-        for (int i = 1; i <= this.numOfRaces; i++) {
+    private void generateGrandPrix(int numOfRaces) {
+        Random random = new Random();
+        ArrayList<GrandPrix> grandPrixs;
+        int i = 1;
+        if(numOfRaces == 1) {
+            grandPrixs = this.championship.getGrandPrixs();
+            i = ++this.numOfRaces;
+        } else {
+            grandPrixs = new ArrayList<GrandPrix>();
+        }
+        for ( ; i <= this.numOfRaces; i++) {
             String weather;
-            int option = gerador.nextInt(3);
-            if(option == 0) weather = "Limpo";
-            else if (option == 1) weather= "Nublado";
+            int option = random.nextInt(3);
+            if (option == 0) weather = "Limpo";
+            else if (option == 1) weather = "Nublado";
             else weather = "Chuvoso";
-
-            grandPrixs.add(new GrandPrix(this.championship,"City " + i, 5*i, 10*i, weather));
+            grandPrixs.add(new GrandPrix(this.championship, "City " + i, 5 * i, 10 * i, weather));
         }
         this.championship.setGrandPrixs(grandPrixs);
     }
 
-    private void drawGrandPrixsCards() {
+    private void drawGrandPrixsCards(boolean addOneCard) {
+        int i = addOneCard? this.numOfRaces - 1 :  0;
         ArrayList<GrandPrix> grandPrixs = this.championship.getGrandPrixs();
-        for (int i = 0; i < this.numOfRaces; i++) {
+        for (; i < this.numOfRaces; i++) {
             VBox card = new VBox();
             card.setStyle("-fx-background-color: #606060;");
             card.setMinSize(100,60);
@@ -117,22 +127,26 @@ public class DashboardController implements Initializable {
     public void fillValues() {
         this.fieldChampionshipName.setText(this.championship.getName());
         this.fieldPenaltyTime.setText(Float.toString(this.championship.getPenaltyTime()));
-        this.labelNumOfRaces.setText(Integer.toString(this.numOfRaces));
+        this.labelNumOfRaces.setText(Integer.toString(this.numOfRaces) + "/9");
     }
     
-    public void enableButton(boolean status) {
-        this.buttonSaveChampionship.setDisable(!status);
-        System.out.println(" > Save Button Disabled: " + this.buttonSaveChampionship.isDisabled());
+    public void enableButton(Button button, boolean status) {
+        button.setDisable(!status);
+        System.out.println(" > Save Button Disabled: " + button.isDisabled());
     }
 
     public void saveChampionship(ActionEvent actionEvent) {
         this.championship.setName(this.fieldChampionshipName.getText());
         this.championship.setPenaltyTime(Float.parseFloat(this.fieldPenaltyTime.getText()));
-        this.enableButton(false);
+        this.enableButton(this.buttonSaveChampionship,false);
         this.fillValues();
     }
 
-    public void openEditGrandPrixs(ActionEvent actionEvent) {
+    public void addGrandPrixs(ActionEvent actionEvent) {
+        this.generateGrandPrix(1);
+        this.drawGrandPrixsCards(true);
+        this.fillValues();
+        if (this.numOfRaces == 9) this.enableButton(this.buttonAddGrandprix,false);
     }
 
     public void openEditTeams(ActionEvent actionEvent) {
@@ -140,4 +154,6 @@ public class DashboardController implements Initializable {
 
     public void start(ActionEvent actionEvent) {
     }
+
+
 }

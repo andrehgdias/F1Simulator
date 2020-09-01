@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -115,8 +116,8 @@
                </GridPane.margin></HBox>
          </children>
       </GridPane>
-        <SplitPane dividerPositions="0.5" maxHeight="1000.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" GridPane.rowIndex="1">
-         <SplitPane dividerPositions="0.5" minHeight="200.0" minWidth="400.0" orientation="VERTICAL" style="-fx-background-color: #404040;" stylesheets="@assets/style.css">
+        <SplitPane dividerPositions="0.5" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" GridPane.rowIndex="1">
+         <SplitPane dividerPositions="0.5" minHeight="500.0" minWidth="400.0" orientation="VERTICAL" style="-fx-background-color: #404040;" stylesheets="@assets/style.css">
            <items>
                <GridPane style="-fx-background-color: #404040;" stylesheets="@assets/style.css">
                  <columnConstraints>
@@ -127,7 +128,7 @@
                    <RowConstraints vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Label text="Cidades">
+                     <Label prefHeight="30.0" text="Corridas">
                         <font>
                            <Font name="Calibri Light" size="18.0" />
                         </font>
@@ -135,7 +136,7 @@
                            <Insets left="20.0" top="5.0" />
                         </padding>
                      </Label>
-                     <FlowPane fx:id="paneCities" hgap="15" maxHeight="400.0" minHeight="200.0" minWidth="200.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="15" GridPane.rowIndex="1">
+                     <FlowPane fx:id="paneCities" hgap="15" minHeight="250.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="15" GridPane.rowIndex="1">
                         <padding>
                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                         </padding></FlowPane>
@@ -150,7 +151,7 @@
                      <RowConstraints vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <Label text="Equipes">
+                     <Label prefHeight="30.0" text="Equipes">
                         <font>
                            <Font name="Calibri Light" size="18.0" />
                         </font>
@@ -158,7 +159,7 @@
                            <Insets left="20.0" top="5.0" />
                         </padding>
                      </Label>
-                     <FlowPane fx:id="paneTeams" hgap="15" maxHeight="400.0" maxWidth="900.0" minHeight="200.0" minWidth="200.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="15" GridPane.rowIndex="1">
+                     <FlowPane fx:id="paneTeams" hgap="15" minHeight="250.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="15" GridPane.rowIndex="1">
                         <padding>
                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                         </padding></FlowPane>
@@ -171,14 +172,20 @@
                     <font>
                         <Font name="Arial" size="14.0" />
                     </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Button>
-                <Button minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#openEditGrandPrixs" text="Editar Grand Prixs">
+                <Button minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#addGrandPrixs" text="Adicionar Grand Prix" fx:id="buttonAddGrandprix">
                     <font>
                         <Font name="Arial" size="14.0" />
                     </font>
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Button>
                 <Button minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#openEditTeams" text="Editar Equipes">
                     <font>
@@ -187,6 +194,9 @@
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                 </Button>
             <Button layoutX="56.0" layoutY="95.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#start" text="Iniciar Simulação">
                <font>
@@ -195,6 +205,9 @@
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <padding>
                <Insets bottom="40.0" top="40.0" />

@@ -1,0 +1,21 @@
+.root {
+    -fx-background-color: #404040;
+}
+
+.label {
+    -fx-text-fill: #f5f5f5;
+}
+
+.hyperlink {
+    -fx-border-width: 0;
+}
+
+.customInput {
+    -fx-border-width: 0;
+    -fx-background-color: #404040;
+    -fx-text-fill: #f5f5f5;
+}
+
+.split-pane-divider {
+    -fx-opacity: 0;
+}

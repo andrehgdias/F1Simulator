@@ -8,15 +8,15 @@ public class Pilot extends Person{
     Mechanic[] mechanics = new Mechanic[4];
     Engineer engineer;
 
+    public Pilot(){}
+
     public Pilot(int id, String name) {
         super(id, name);
     }
 
-    public Pilot(int id, String name, Car car, Mechanic[] mechanics, Engineer engineer) {
+    public Pilot(int id, String name, Car car) {
         super(id, name);
         this.car = car;
-        this.mechanics = mechanics;
-        this.engineer = engineer;
     }
 
     public Car getCar() {

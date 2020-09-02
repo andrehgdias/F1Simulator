@@ -13,7 +13,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
         Parent root = loader.load();
         MenuController controller = loader.getController();
-        controller.seStage(primaryStage);
+        controller.setStage(primaryStage);
 
         primaryStage.setTitle("F1 Simulator by André Dias");
         primaryStage.setScene(new Scene(root));

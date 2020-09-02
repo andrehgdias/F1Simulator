@@ -19,3 +19,11 @@
 .split-pane-divider {
     -fx-opacity: 0;
 }
+
+.choiceBox .label{
+    -fx-text-fill: #202020;
+}
+
+.lightCard {
+    -fx-background-color: #606060;
+}

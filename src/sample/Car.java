@@ -11,10 +11,9 @@ public class Car {
     public Car() {
     }
 
-    public Car(int id, Team team, Pilot pilot, int fuel, String status, String tyres) {
+    public Car(int id, Team team, int fuel, String status, String tyres) {
         this.id = id;
         this.team = team;
-        this.pilot = pilot;
         this.fuel = fuel;
         this.status = status;
         this.tyres = tyres;

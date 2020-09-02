@@ -6,6 +6,9 @@ public class Team {
     Car[] cars = new Car[2];
     Pilot[] pilots = new Pilot[2];
 
+    public Team() {
+    }
+
     public Team(int id, String name) {
         this.id = id;
         this.name = name;

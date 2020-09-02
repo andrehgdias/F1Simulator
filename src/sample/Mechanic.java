@@ -17,6 +17,30 @@ public class Mechanic extends Person {
         this.timeRefueling = timeRefueling;
     }
 
+    public Pilot getPilot() {
+        return pilot;
+    }
+
+    public void setPilot(Pilot pilot) {
+        this.pilot = pilot;
+    }
+
+    public float getTimeChangingTyres() {
+        return timeChangingTyres;
+    }
+
+    public void setTimeChangingTyres(float timeChangingTyres) {
+        this.timeChangingTyres = timeChangingTyres;
+    }
+
+    public float getTimeRefueling() {
+        return timeRefueling;
+    }
+
+    public void setTimeRefueling(float timeRefueling) {
+        this.timeRefueling = timeRefueling;
+    }
+
     public void ChangeTyres() {
 
     }

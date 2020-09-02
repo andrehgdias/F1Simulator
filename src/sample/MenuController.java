@@ -21,9 +21,7 @@ public class MenuController {
     Desktop desktop = Desktop.getDesktop();
     private Stage mainStage;
 
-    DashboardController dashboardController = new DashboardController();
-
-    public void seStage(Stage stage) {
+    public void setStage(Stage stage) {
         mainStage = stage;
     }
 

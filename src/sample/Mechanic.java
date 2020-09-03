@@ -40,12 +40,4 @@ public class Mechanic extends Person {
     public void setTimeRefueling(float timeRefueling) {
         this.timeRefueling = timeRefueling;
     }
-
-    public void ChangeTyres() {
-
-    }
-
-    public void Refuel() {
-
-    }
 }

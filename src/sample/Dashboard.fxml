@@ -55,7 +55,7 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints vgrow="SOMETIMES" />
-            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="600.0" vgrow="SOMETIMES" />
         </rowConstraints>
       <GridPane GridPane.halignment="CENTER">
         <columnConstraints>
@@ -110,6 +110,26 @@
                         </TextField>
                      </children>
                   </TextFlow>
+                   <TextFlow layoutX="10.0" layoutY="10.0">
+                       <children>
+                           <Label text="Chance de chuva (%):">
+                               <font>
+                                   <Font name="Calibri Light" size="18.0" />
+                               </font>
+                               <padding>
+                                   <Insets left="50.0" />
+                               </padding>
+                           </Label>
+                           <TextField fx:id="fieldRain" alignment="CENTER" prefWidth="40.0" styleClass="customInput" text="?">
+                               <font>
+                                   <Font name="Calibri Light" size="18.0" />
+                               </font>
+                               <padding>
+                                   <Insets bottom="-5.0" left="-5.0" right="-5.0" top="-5.0" />
+                               </padding>
+                           </TextField>
+                       </children>
+                   </TextFlow>
                </children>
                <GridPane.margin>
                   <Insets top="10.0" />
@@ -136,7 +156,7 @@
                            <Insets left="20.0" top="5.0" />
                         </padding>
                      </Label>
-                     <FlowPane fx:id="paneCities" hgap="15" minHeight="275.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="10" GridPane.rowIndex="1">
+                     <FlowPane fx:id="paneCities" hgap="15" maxHeight="300.0" minHeight="200.0" minWidth="900.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="10" GridPane.rowIndex="1">
                         <padding>
                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                         </padding></FlowPane>
@@ -159,7 +179,7 @@
                            <Insets left="20.0" top="5.0" />
                         </padding>
                      </Label>
-                     <FlowPane fx:id="paneTeams" hgap="15" minHeight="275.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="10" GridPane.rowIndex="1">
+                     <FlowPane fx:id="paneTeams" hgap="15" prefHeight="150.0" style="-fx-background-color: #404040;" stylesheets="@assets/style.css" vgap="10" GridPane.rowIndex="1">
                         <padding>
                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                         </padding></FlowPane>
@@ -176,7 +196,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-                <Button minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#addGrandPrixs" text="Adicionar Grand Prix" fx:id="buttonAddGrandprix">
+                <Button fx:id="buttonAddGrandprix" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#addGrandPrixs" text="Adicionar Grand Prix">
                     <font>
                         <Font name="Arial" size="14.0" />
                     </font>
@@ -187,7 +207,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                 </Button>
-            <Button layoutX="56.0" layoutY="95.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#start" text="Iniciar Simulação">
+            <Button layoutX="56.0" layoutY="95.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#startFirstGrandPrix" text="Iniciar Simulação">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>

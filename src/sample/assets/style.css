@@ -27,3 +27,7 @@
 .lightCard {
     -fx-background-color: #606060;
 }
+
+.darkbg {
+    -fx-background-color: #404040;
+}

@@ -1,6 +1,7 @@
 package sample;
 
 public class Car {
+    public static final int MAX_FUEL = 10;
     int id;
     Team team;
     Pilot pilot;
@@ -11,10 +12,10 @@ public class Car {
     public Car() {
     }
 
-    public Car(int id, Team team, int fuel, String status, String tyres) {
+    public Car(int id, Team team, String status, String tyres) {
         this.id = id;
         this.team = team;
-        this.fuel = fuel;
+        this.fuel = MAX_FUEL;
         this.status = status;
         this.tyres = tyres;
     }

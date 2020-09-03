@@ -28,21 +28,22 @@ import java.util.ResourceBundle;
 
 
 public class DashboardController implements Initializable {
-
     Desktop desktop = Desktop.getDesktop();
 
-    private int numOfRaces = 5;
+    private int numOfRaces = 2;
 
     public TextField fieldChampionshipName;
     public Label labelNumOfRaces;
     public TextField fieldPenaltyTime;
+    public TextField fieldRain;
     public FlowPane paneTeams;
     public FlowPane paneCities;
     public Button buttonSaveChampionship;
     public Button buttonAddGrandprix;
 
 
-    private static Championship championship = new Championship("Campeonato Mundial", 8.0f);
+    private static Championship championship = new Championship("Campeonato Mundial", 8.0f, 60);
+    private static int nextGrandPrix = 0;
 
     public static Championship getChampionship() {
         return championship;
@@ -50,6 +51,22 @@ public class DashboardController implements Initializable {
 
     public void setChampionship(Championship championship) {
         DashboardController.championship = championship;
+    }
+
+    public int getNumOfRaces() {
+        return numOfRaces;
+    }
+
+    public void setNumOfRaces(int numOfRaces) {
+        this.numOfRaces = numOfRaces;
+    }
+
+    public static int getNextGrandPrix() {
+        return nextGrandPrix;
+    }
+
+    public static void setNextGrandPrix(int nextGrandPrix) {
+        DashboardController.nextGrandPrix = nextGrandPrix;
     }
 
     public void openLink(ActionEvent actionEvent) throws URISyntaxException, IOException {
@@ -62,30 +79,31 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("==============================\n > Initializing Dashboard...");
+        System.out.println("==================================================\n > Initializing Dashboard...");
 
         this.fillValues();
         this.fieldPenaltyTime.textProperty().addListener((obs, oldText, newText) -> {
-            System.out.println("Text changed from "+oldText+" to "+newText);
             this.enableButton(this.buttonSaveChampionship, true);
         });
+        this.fieldRain.textProperty().addListener((obs, oldText, newText) -> {
+            this.enableButton(this.buttonSaveChampionship, Integer.parseInt(newText) >= 0 && Integer.parseInt(newText) <= 100);
+        });
         this.fieldChampionshipName.textProperty().addListener((obs, oldText, newText) -> {
-            System.out.println("Text changed from "+oldText+" to "+newText);
             this.enableButton(this.buttonSaveChampionship, true);
         });
         this.enableButton(this.buttonSaveChampionship, false);
 
-
-        this.paneCities.setMinWidth(this.numOfRaces * 130);
-        this.paneTeams.setMinWidth(this.numOfRaces * 130);
         this.generateGrandPrix(this.numOfRaces);
         this.drawGrandPrixsCards(false);
         this.generateTeams();
         this.drawTeamsCards();
+
+        DashboardController.championship.setNumOfRaces(this.numOfRaces);
     }
 
     private void generateTeams() {
         Team[] teams = new Team[10];
+        int pilotId = 0;
         for (int i = 0; i < 10; i++) {
             Car[] cars = new Car[2];
             Pilot[] pilots = new Pilot[2];
@@ -94,14 +112,15 @@ public class DashboardController implements Initializable {
 
             for (int j = 0; j < 2; j++) {
                 Mechanic[] mechanics = new Mechanic[4];
-                cars[j] = new Car(j, teams[i], 10, "Pronto", "Duro");
-                pilots[j] = new Pilot(j, "Piloto " + teams[i].getName() + " " + (j+1), cars[j]);
+                cars[j] = new Car(j, teams[i], "Pronto", "Duro");
+                pilots[j] = new Pilot(pilotId, "Piloto " + teams[i].getName() + " " + (pilotId+1), cars[j], teams[i]);
                 pilots[j].setEngineer(new Engineer(0, "Engenheiro "  + pilots[j].getName(), pilots[j]));
                 for (int k = 0; k < 4; k++) {
-                    mechanics[k] = new Mechanic(k, "Mecânico " + pilots[j].getName() + " " + (k+1) , pilots[j] , 2*(k+1), (float)1.5*(k+1));
+                    mechanics[k] = new Mechanic(k, "Mecânico " + pilots[j].getName() + " " + (k+1) , pilots[j] , 3*(k+1), (float)4*(k+1));
                 }
                 pilots[j].setMechanics(mechanics);
                 cars[j].setPilot(pilots[j]);
+                pilotId++;
             }
             teams[i].setCars(cars);
             teams[i].setPilots(pilots);
@@ -115,7 +134,7 @@ public class DashboardController implements Initializable {
         for (Team team : teams) {
             VBox card = new VBox();
             card.setStyle("-fx-background-color: #606060;");
-            card.setMinSize(140, 60);
+            card.setMinSize(145, 60);
             card.setSpacing(5);
             card.setPadding(new Insets(10, 20, 10, 20));
             card.setCursor(Cursor.HAND);
@@ -131,11 +150,8 @@ public class DashboardController implements Initializable {
                         id = ((Node) mouseEvent.getTarget()).getId();
                     }
                     try {
-
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("TeamDetails.fxml"));
                         Parent root = loader.load();
-                        System.out.println("Loader Root:");
-                        System.out.println(root);
                         TeamDetailsController controller = loader.getController();
                         Stage stage = new Stage();
                         stage.setTitle("Detalhes " + team.getName());
@@ -175,6 +191,7 @@ public class DashboardController implements Initializable {
         if(numOfRaces == 1) {
             grandPrixs = DashboardController.championship.getGrandPrixs();
             i = ++this.numOfRaces;
+            DashboardController.championship.setNumOfRaces(this.numOfRaces);
         } else {
             grandPrixs = new ArrayList<GrandPrix>();
         }
@@ -184,7 +201,7 @@ public class DashboardController implements Initializable {
             if (option == 0) weather = "Limpo";
             else if (option == 1) weather = "Nublado";
             else weather = "Chuvoso";
-            grandPrixs.add(new GrandPrix(DashboardController.championship, "City " + i, 5 * i, 10 * i, weather));
+            grandPrixs.add(new GrandPrix(DashboardController.championship, "City " + i, 15 + 5 * i, 10 * i, weather));
         }
         DashboardController.championship.setGrandPrixs(grandPrixs);
     }
@@ -208,7 +225,7 @@ public class DashboardController implements Initializable {
             labelLaps.setFont(new Font("Arial", 12));
 
             Label labelWeather = new Label();
-            labelWeather.setText("Clima inicial: "+ grandPrixs.get(i).getWeather());
+            labelWeather.setText("Clima inicial: "+ grandPrixs.get(i).getStartWeather());
             labelWeather.setFont(new Font("Arial", 12));
 
 
@@ -220,6 +237,7 @@ public class DashboardController implements Initializable {
     public void fillValues() {
         this.fieldChampionshipName.setText(DashboardController.championship.getName());
         this.fieldPenaltyTime.setText(Float.toString(DashboardController.championship.getPenaltyTime()));
+        this.fieldRain.setText(Integer.toString(DashboardController.championship.getRainProbability()));
         this.labelNumOfRaces.setText(Integer.toString(this.numOfRaces) + "/9");
     }
     
@@ -231,6 +249,7 @@ public class DashboardController implements Initializable {
     public void saveChampionship(ActionEvent actionEvent) {
         DashboardController.championship.setName(this.fieldChampionshipName.getText());
         DashboardController.championship.setPenaltyTime(Float.parseFloat(this.fieldPenaltyTime.getText()));
+        DashboardController.championship.setRainProbability(Integer.parseInt(this.fieldRain.getText()));
         this.enableButton(this.buttonSaveChampionship,false);
         this.fillValues();
     }
@@ -242,11 +261,13 @@ public class DashboardController implements Initializable {
         if (this.numOfRaces == 9) this.enableButton(this.buttonAddGrandprix,false);
     }
 
-    public void openEditTeams(ActionEvent actionEvent) {
+    public static void start() throws InterruptedException, IOException {
+        DashboardController.championship.start(DashboardController.nextGrandPrix);
     }
 
-    public void start(ActionEvent actionEvent) {
+    public void startFirstGrandPrix(ActionEvent actionEvent) throws IOException, InterruptedException {
+        System.out.println(" > Starting simulation...");
+        DashboardController.nextGrandPrix = 0;
+        DashboardController.start();
     }
-
-
 }

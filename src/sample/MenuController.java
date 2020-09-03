@@ -15,9 +15,6 @@ import java.net.URISyntaxException;
 
 
 public class MenuController {
-    public TextField fieldChampionshipName;
-    public Label labelNumOfRaces;
-    public TextField fieldPenaltyTime;
     Desktop desktop = Desktop.getDesktop();
     private Stage mainStage;
 

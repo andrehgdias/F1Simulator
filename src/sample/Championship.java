@@ -15,7 +15,6 @@ public class Championship {
     private ArrayList<GrandPrix> grandPrixs;
     private int numOfRaces;
 
-
     ArrayList<float[]> accumulatedTimeByRace = new ArrayList<float[]>();
     float[] accumulatedTime = new float[20];
 
@@ -117,6 +116,10 @@ public class Championship {
         for (int j = 0; j < 20; j++) {
             this.accumulatedTime[j] = this.accumulatedTime[j] + lapTimesByPilot[j];
         }
+
+        System.out.println("==================================================");
+        System.out.println(" > Accumulated time: " + Arrays.toString(this.accumulatedTime));
+
         stageRunning.close();
     }
 

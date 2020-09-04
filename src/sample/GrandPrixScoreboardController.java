@@ -1,15 +1,16 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class GrandPrixScoreboardController {
     public Stage stage;
@@ -46,10 +47,11 @@ public class GrandPrixScoreboardController {
     private void createTable() {
         Team[] teams = DashboardController.getChampionship().getTeams();
         float[] pilotTimes = this.grandPrix.getPilotTimes().clone();
+        float[] arrayAux = this.grandPrix.getPilotTimes().clone();
         Arrays.sort(pilotTimes);
 
         for (int i = 0; i < 20; i++) {
-            int pilotId = indexOf(this.grandPrix.getPilotTimes(), pilotTimes[i]);
+            int pilotId = indexOf(arrayAux, pilotTimes[i]);
             int id = pilotId%2 == 0 ? 0 : 1;
 
             System.out.println(" > PilotId: " + pilotId);
@@ -66,6 +68,17 @@ public class GrandPrixScoreboardController {
         if(DashboardController.getNextGrandPrix() == DashboardController.getChampionship().getNumOfRaces()-1) {
             this.stage.close();
             System.out.println(" > End of simulation :(");
+            Stage stageRunning = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ChampionshipScoreboard.fxml"));
+            Parent root = loader.load();
+            ChampionshipScoreboardController controller = loader.getController();
+            stageRunning.setTitle("Resultado " + DashboardController.getChampionship().getName());
+            stageRunning.show();
+            Scene sceneRunning= new Scene(root);
+            stageRunning.setScene(sceneRunning);
+            stageRunning.setResizable(false);
+            controller.setStage(stageRunning);
+            controller.init();
         } else {
             this.stage.close();
             DashboardController.setNextGrandPrix(DashboardController.getNextGrandPrix() + 1);
@@ -73,16 +86,19 @@ public class GrandPrixScoreboardController {
         }
     }
 
-    private static int indexOf(float[] array, float element) {
+    public static int indexOf(float[] array, float element) {
         int index = 0;
         System.out.println("==================================================");
         System.out.println(" Searching for " + element);
+        System.out.println(" Array: " + Arrays.toString(array));
 
-        for ( ; index < array.length; index++) {
+        while ( index < array.length ) {
             System.out.println(" > Item at index " + index + ": " + array[index]);
             if (array[index] == element) {
                 array[index] = -1;
                 break;
+            }else {
+                index++;
             }
         }
         System.out.println("Found at index " + index);
